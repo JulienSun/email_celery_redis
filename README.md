@@ -20,12 +20,21 @@ The basic steps to the code is as follows:
 5. change the password of your qq email in the settings.py. 
 When you activate the smtp in qq, it will give a new password for email
 
-6. input the command to run celery; For windows, we need to use eventlet.
+6. input the command to run celery;
+For windows, we need to use eventlet.
 `celery -A celery_redis.celery worker -l info -P eventlet -c 10
 ` Latter, you will see the info about receiving the task and processing the task in the console.
+But, currently, there is no task submitted
 
 7. run django web server
 `python manage runserver`
 
-8. test email via browser or postman
+8. test email-task via browser or postman
 http://127.0.0.1:8000/email/send-email/
+this is to submit a task, note: just one task
+
+9. use beat to run scheduled task
+`celery -A celery_redis.celery beat -l info`
+note: first run worker, then run beat.
+It might be the scenario: worker is to fetch task and execute, beat is to submit task in a scheduled manner
+
